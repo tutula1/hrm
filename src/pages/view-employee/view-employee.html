@@ -1,0 +1,138 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{name}}</ion-title>
+    <ion-buttons end *ngIf="view_page == true">
+      <button ion-button icon-only (click)="presentActionSheet()">
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div class="bg-image">
+    <ion-img src="data:image/*;base64,{{imageSrc}}" class="round-image" style="
+      height: 150px !important;
+      width: 150px !important;
+      background: none !important;
+      background-color :none !important;"></ion-img>
+  </div>
+  <div class="main-cnt">
+    <ion-list>
+      <div *ngFor="let item of data">
+        <ion-list-header>
+          <h1>Contact Information</h1>
+        </ion-list-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Code</ion-col>
+              <ion-col>{{item.code}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Email</ion-col>
+              <ion-col>{{item.email}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Mobile</ion-col>
+              <ion-col>{{item.mobile}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Phone</ion-col>
+              <ion-col>{{item.phone}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-list-header>
+          <h1>Position</h1>
+        </ion-list-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Company</ion-col>
+              <ion-col>{{item.company}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card (click)="view_department(item)">
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Department</ion-col>
+              <ion-col>{{item.department}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Job</ion-col>
+              <ion-col>{{item.job}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Job Position</ion-col>
+              <ion-col>{{item.job_position}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card (click)="view_parent(item)">
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Manager</ion-col>
+              <ion-col>{{item.parent}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card (click)="view_coach(item)">
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Leader</ion-col>
+              <ion-col>{{item.coach}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-list-header>
+          <h1>Joining Date</h1>
+        </ion-list-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Joining Date</ion-col>
+              <ion-col>{{item.joining_date | amParse:'YYYY-MM-DD' | amDateFormat:'DD/MM/YYYY'}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Official Joining Date</ion-col>
+              <ion-col>{{item.official_joining_date | amParse:'YYYY-MM-DD' | amDateFormat:'DD/MM/YYYY'}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-row>
+              <ion-col class="spec">Worked Years</ion-col>
+              <ion-col>{{item.worked_years}}</ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

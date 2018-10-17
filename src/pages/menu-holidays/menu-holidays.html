@@ -1,0 +1,30 @@
+<ion-menu [content]="holidaysMenuRoot">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Leaves</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <!-- <button ion-item menuClose (click)="openPage(holidaysPage, {title: 'Leaves Summary'})">
+        Leaves Summary
+      </button> -->
+      <button ion-item menuClose (click)="openPage(holidaysPage, {type: 'remove', title: 'Leaves Request'})">
+        Leaves Request
+      </button>
+      <button ion-item menuClose (click)="openPage(holidaysPage, {type: 'add', title: 'Allocation Request'})">
+        Allocation Request
+      </button>
+      <button ion-item menuClose (click)="openPage(holidaysDayPage, {})">
+        Holidays Days
+      </button>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+    <button ion-button full icon-start (click)="popToRoot()">
+      <ion-icon name="arrow-back"></ion-icon>
+      Back to Home
+    </button>
+  </ion-footer>
+</ion-menu>
+<ion-nav #holidaysMenuRoot [root]="rootPage" [rootParams]="params"></ion-nav>

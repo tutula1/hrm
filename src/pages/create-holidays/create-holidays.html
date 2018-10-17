@@ -1,0 +1,94 @@
+<!--
+  Generated template for the CreateHolidaysPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-start [disabled]="!createLeaveForm.form.valid" (click)="createLeave()">
+        <ion-icon name="send"></ion-icon>
+        Create
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <button ion-button>
+          {{state_html}}
+        </button>
+      </ion-col>
+      <ion-col>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form (ngSubmit)="createLeave()" #createLeaveForm="ngForm">
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label floating>Employee</ion-label>
+            <ion-select #Employee (ionChange)="onChangeEmployee(Employee.value)" [(ngModel)]="employee_id" name="employee_id" interface="action-sheet">
+              <ion-option *ngFor="let item of employee_ids;" value="{{item.id}}">{{item.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Department</ion-label>
+            <!-- <ion-select [(ngModel)]="department_id" readonly name="department_id">
+              <ion-option *ngIf="department_id != false" value="{{department_id}}">{{department}}</ion-option>
+            </ion-select> -->
+            <ion-input type="text" [(ngModel)]="department" name="department" readonly></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Description</ion-label>
+            <ion-input type="text" [(ngModel)]="name" name="name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Leave Type</ion-label>
+            <ion-select #LeaveType (ionChange)="onChangeLeaveType(LeaveType.value)" [(ngModel)]="holiday_status_id" name="holiday_status_id" interface="action-sheet">
+              <ion-option *ngFor="let item of holiday_status_ids" value="{{item.id}}">{{item.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="reason == true">
+            <ion-label floating>Reason</ion-label>
+            <ion-select #Reason (ionChange)="onChangeReason(Reason.value)" [(ngModel)]="reason_id" name="reason_id" interface="action-sheet">
+              <ion-option *ngFor="let item of reason_ids" value="{{item.id}}">{{item.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="type == 'remove'">
+            <ion-label floating>Duration</ion-label>
+            <ion-input type="text" [(ngModel)]="number_of_days_temp" name="number_of_days_temp" readonly></ion-input>
+          </ion-item>
+          <ion-item *ngIf="type == 'add'">
+            <ion-label floating>Duration</ion-label>
+            <ion-input type="text" [(ngModel)]="number_of_days_temp_allocation" name="number_of_days_temp" required></ion-input>
+          </ion-item>
+          <ion-item *ngIf="type == 'remove'">
+            <ion-label floating>Hours</ion-label>
+            <ion-input type="text" [(ngModel)]="hours_html" name="hours" readonly></ion-input>
+          </ion-item>
+          <ion-item *ngIf="type == 'remove'">
+            <ion-label floating>Date From</ion-label>
+            <ion-datetime (ngModelChange)="onChangeDateFromDateTo('date_from')" style="width: 100% !important" displayFormat="DD/MM/YYYY HH:mm" name="date_from" required [(ngModel)]="date_from"></ion-datetime>
+          </ion-item>
+          <ion-item *ngIf="type == 'remove'">
+            <ion-label floating>Date To</ion-label>
+            <ion-datetime (ngModelChange)="onChangeDateFromDateTo('date_to')" style="width: 100% !important" displayFormat="DD/MM/YYYY HH:mm" name="date_to" required [(ngModel)]="date_to"></ion-datetime>
+          </ion-item>
+          <ion-card *ngIf="regulations != false">
+            <ion-card-content>
+              <ion-row>
+                <ion-col [innerHtml]="regulations_html"></ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

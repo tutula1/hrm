@@ -1,6 +1,6 @@
 import { LoginPage } from '../login/login';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OdooJsonRpc } from '../../services/odoojsonrpc';
 import { Utils } from '../../services/utils';
 
@@ -34,6 +34,7 @@ export class ProfilePage {
 
   constructor(
     public navCtrl: NavController,
+    public appCtrl: App,
     public navParams: NavParams,
     public odooRpc: OdooJsonRpc,
     public utils: Utils) { }
@@ -99,7 +100,7 @@ export class ProfilePage {
       handler: () => {
         localStorage.clear()
         this.odooRpc.destroy()
-        this.navCtrl.setRoot(LoginPage);
+        this.appCtrl.getRootNav().setRoot(LoginPage);
       }
     }])
   }

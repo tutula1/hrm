@@ -42,15 +42,16 @@ export class OdooJsonRpc {
      */
     public handleOdooErrors(response: any) {
         let err: string = response.error.data.message
-        let msg = err.split("\n")
-        let errMsg = msg[0]
+        // let msg = err.split("\n")
+        // let errMsg = msg[0]
+        let errMsg = err.replace(/\n/gi, "<br/>");
 
         this.utils.presentAlert("Error", errMsg, [{
             text: "Ok",
             role: "cancel"
         }])
     }
-
+""
     /**
      * Handles HTTP errors
      */
@@ -198,7 +199,13 @@ export class OdooJsonRpc {
      * @param offset 
      * @param sort sorting order of data (e.g) let sort = "ascending"
      */
-    public searchRead(model: string, domain: any, fields: any, limit: number, offset: any, sort: string) {
+    public searchRead(model: string, domain: any, fields: any, limit: number, offset: any, sort: string, context:any=false) {
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
         let params = {
             model: model,
             fields: fields,
@@ -219,17 +226,77 @@ export class OdooJsonRpc {
      * @param args Array of fields
      * @param kwargs Object
      */
-    public call(model: string, method: string, args: any, kwargs?: any) {
-
+    public call(model: string, method: string, args: any, kwargs?: any, context:any=false) {
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
         kwargs = kwargs || {};
         let params = {
             model: model,
             method: method,
             args: args,
             kwargs: kwargs == false ? {} : kwargs,
-            context: this.getContext()
+            context: ctx
         };
         return this.sendRequest("/web/dataset/call_kw", params);
+    }
+
+    public call_method(model: string, method: string, args: Array<any> = [], context:any=false) {
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
+        let kwargs = {
+            context: ctx
+        }
+        let params = {
+            model: model,
+            method: method,
+            args: args,
+            kwargs: kwargs,
+        };
+        return this.sendRequest("/web/dataset/call_kw/" + model + "/" + method, params);
+    }
+
+    public call_button(model: string, method: string, ids: Array<any> = [], context:any=false) {
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
+        let args = [
+            ids,
+            ctx
+        ]
+        let params = {
+            model: model,
+            method: method,
+            args: args,
+        };
+        return this.sendRequest("/web/dataset/call_button/", params);
+    }
+
+    public onchange(model: string, args: Array<any>, context:any=false) {
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
+        args.push(ctx);
+        let params = {
+            model: model,
+            method: "onchange",
+            args: args,
+            kwargs: {},
+        };
+        return this.sendRequest("/web/dataset/call_kw/" + model + "/onchange", params);
     }
 
 
@@ -240,11 +307,20 @@ export class OdooJsonRpc {
      * @param mArgs Array of fields which you want to read of the particular id
      */
 
-    public read(model: string, id: Array<number>, mArgs: Array<string>): Promise<any> {
+    public read(model: string, id: Array<number>, mArgs: Array<string>, context:any=false): Promise<any> {
         let args = [
             id, mArgs
         ]
-        return this.call(model, 'read', args)
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
+        let kwargs = {
+            context: ctx
+        }
+        return this.call(model, 'read', args, kwargs)
     }
 
 
@@ -253,11 +329,11 @@ export class OdooJsonRpc {
      * @param model Model name
      * @param id Id of that particular data which you want to load
      */
-    public load(model: string, id: number): Promise<any> {
+    public load(model: string, id: number, fields: Array<any> = []): Promise<any> {
         let params = {
             model: model,
             id: id,
-            fields: [],
+            fields: fields,
             context: this.getContext()
         }
         return this.sendRequest("/web/dataset/load", params)
@@ -269,12 +345,19 @@ export class OdooJsonRpc {
      * @param model Model name
      * @param name Name that you want to search
      */
-    public nameSearch(model: string, name: string): Promise<any> {
+    public nameSearch(model: string, name: string, context:any=false): Promise<any> {
+        let ctx = this.getContext();
+        if(context){
+            context.forEach((item) => {
+                ctx[item[0]] = item[1];
+            })
+        }
         let kwargs = {
             name: name,
             args: [],
             operator: "ilike",
-            limit: 0
+            limit: 0,
+            context: ctx
         }
         return this.call(model, 'name_search', [], kwargs)
     }

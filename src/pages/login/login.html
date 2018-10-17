@@ -3,6 +3,7 @@
     <ion-card-content>
 
       <div class="spacer" style="height: 10px;"></div>
+      <div >
       <ion-item>
         <ion-label style="color: #fff">Select Protocol</ion-label>
         <ion-select [(ngModel)]="selectedProtocol" style="color: #fff" name="dbNames">
@@ -18,6 +19,7 @@
         Check Url
         <ion-icon name="md-arrow-round-forward"></ion-icon>
       </button>
+      </div>
       <div [hidden]="!perfectUrl">
         <form (ngSubmit)="login()" #registerForm="ngForm">
           <div class="spacer" style="height: 10px;"></div>
@@ -30,13 +32,16 @@
           </ion-item>
           <div class="spacer" style="height: 10px;"></div>
           <div class="spacer" style="height: 10px;"></div>
-          <ion-item>
+          <ion-item *ngIf="dbList.length > 1">
             <ion-label style="color: #fff">Select Database</ion-label>
             <ion-select [(ngModel)]="selectedDatabase" name="selectDatabase" style="color: #fff" required>
               <ion-option *ngFor="let item of dbList" value="{{item.dbName}}">{{item.dbName}}</ion-option>
             </ion-select>
           </ion-item>
           <button ion-button block round outline color="light" [disabled]="!registerForm.form.valid" (click)="signin()">Login</button>
+          <button ion-button block round icon-only outline color="light" [hidden]="!isFinger" (click)="finger()">
+            <ion-icon name="finger-print"></ion-icon>
+          </button>
         </form>
       </div>
     </ion-card-content>

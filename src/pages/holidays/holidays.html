@@ -1,0 +1,106 @@
+<!--
+  Generated template for the HolidaysPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-start (click)="addLeave()">
+        <ion-icon name="add"></ion-icon>
+        Create
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar *ngIf="type == 'remove'">
+    <ion-title>{{ viewTitle }}</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="changeMode('month')">M</button>
+      <button ion-button (click)="changeMode('week')">W</button>
+      <button ion-button (click)="changeMode('day')">D</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="has-header" padding>
+  <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+    <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail">
+      <ion-item-sliding *ngFor="let item of selectedDate?.events">
+        <ion-item (click)="viewLeave(item)">
+          <h2>{{item.title}}</h2>
+          <p>{{item.employee_id[1]}}</p>
+          <span>{{item.holiday_status_id[1]}}</span>
+          <ion-badge item-end>{{item.number_of_days_temp}}</ion-badge>
+        </ion-item>
+        <ion-item-options *ngIf="selectedDate?.events.length>0" side="right">
+          <button ion-button *ngIf="item.isConfirm == true" (click)="confirm(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            Confirm
+          </button>
+          <button ion-button *ngIf="item.is1stApprove == true" (click)="approve1st(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            1st Approve
+          </button>
+          <button ion-button *ngIf="item.is2ndApprove == true" (click)="approve2nd(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            2nd Approve
+          </button>
+          <button ion-button *ngIf="item.isFinalApprove == true" (click)="approveFinal(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            Final Approve
+          </button>
+          <button ion-button *ngIf="item.isRefuse == true" (click)="refuse(item)">
+            <ion-icon name="close"></ion-icon>
+            Refused
+          </button>
+        </ion-item-options>
+        <ion-item *ngIf="selectedDate?.events.length==0">
+          <div class="no-events-label">{{noEventsLabel}}</div>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+  </ng-template>
+  <calendar *ngIf="type == 'remove'" [eventSource]="holidaysArray" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" noEventsLabel="No Leaves" queryMode="remote" [showEventDetail]="calendar.showEventDetail" (onRangeChanged)="onRangeChanged($event)" (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" [monthviewEventDetailTemplate]="template" step="30" #CalendarComponent class="calendar">
+  </calendar>
+  <ion-list no-lines *ngIf="type == 'add'" [virtualScroll]="holidaysArray">
+    <ion-item-sliding *virtualItem="let item; let i=index">
+      <ion-item (click)="viewLeave(item)">
+        <h2>{{item.title}}</h2>
+        <p>{{item.employee_id[1]}}</p>
+        <span>{{item.holiday_status_id[1]}}</span>
+        <ion-badge item-end>{{item.number_of_days_temp}}</ion-badge>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button *ngIf="item.isConfirm == true" (click)="confirm(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            Confirm
+          </button>
+          <button ion-button *ngIf="item.is1stApprove == true" (click)="approve1st(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            1st Approve
+          </button>
+          <button ion-button *ngIf="item.is2ndApprove == true" (click)="approve2nd(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            2nd Approve
+          </button>
+          <button ion-button *ngIf="item.isFinalApprove == true" (click)="approveFinal(item)">
+            <ion-icon name="arrow-forward"></ion-icon>
+            Final Approve
+          </button>
+          <button ion-button *ngIf="item.isRefuse == true" (click)="refuse(item)">
+            <ion-icon name="close"></ion-icon>
+            Refused
+          </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-fab center bottom #fab>
+    <button ion-fab mini (click)="addLeave()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

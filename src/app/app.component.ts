@@ -1,4 +1,4 @@
-import { HomePage } from "../pages/home/home";
+import { DashboardPage } from "../pages/dashboard/dashboard";
 import { LoginPage } from "../pages/login/login";
 import { OdooJsonRpc } from "../services/odoojsonrpc";
 import { Component } from "@angular/core";
@@ -13,7 +13,8 @@ import { Utils } from "../services/utils";
   providers: [OdooJsonRpc, Utils]
 })
 export class MyApp {
-  rootPage: any = LoginPage;
+  // rootPage: any = DashboardPage;//LoginPage;//DashboardPage
+  rootPage: any = LoginPage; //DashboardPage
   constructor(
     platform: Platform,
     private statusBar: StatusBar,
@@ -51,8 +52,8 @@ export class MyApp {
           buttons: ["Ok"]
         });
         alrt.present();
+        localStorage.clear();
       });
-      this.rootPage = HomePage;
     }
   }
 }
